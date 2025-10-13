@@ -546,25 +546,57 @@
         </div>
     </div>
 
-    <script>
-        // Inicializar la aplicación automáticamente sin login
-        document.addEventListener('DOMContentLoaded', function() {
-            showApp();
-        });
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-        function showApp() {
-            document.getElementById('userName').textContent = 'Usuario';
-            const placeholder = document.getElementById('profilePlaceholder');
-            placeholder.textContent = 'U';
-        }
+        const firebaseConfig = {
+            apiKey: "AIzaSyDBisAdWcLk_hzZrWjvZUtmx3Dn2bYhqZk",
+            authDomain: "secretarios-def2.firebaseapp.com",
+            projectId: "secretarios-def2",
+            storageBucket: "secretarios-def2.firebasestorage.app",
+            messagingSenderId: "153016824405",
+            appId: "1:153016824405:web:14ca6c9d586d2d7a21dadc"
+        };
 
-        function logout() {
-            if (confirm('¿Está seguro que desea cerrar sesión?')) {
-                // Redirigir a la página de login
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Verificar estado de autenticación al cargar
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Usuario autenticado, mostrar información
+                showApp(user);
+            } else {
+                // No hay usuario autenticado, redirigir al login
                 window.location.href = 'index.html';
             }
+        });
+
+        function showApp(user) {
+            const userName = user.displayName || user.email || 'Usuario';
+            document.getElementById('userName').textContent = userName;
+            
+            const placeholder = document.getElementById('profilePlaceholder');
+            placeholder.textContent = userName.charAt(0).toUpperCase();
         }
 
+        // Función de logout global
+        window.logout = async function() {
+            if (confirm('¿Está seguro que desea cerrar sesión?')) {
+                try {
+                    await signOut(auth);
+                    // Redirigir al login después de cerrar sesión
+                    window.location.href = 'index.html';
+                } catch (error) {
+                    console.error('Error al cerrar sesión:', error);
+                    alert('Error al cerrar sesión. Intente nuevamente.');
+                }
+            }
+        };
+    </script>
+
+    <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             if (window.innerWidth <= 768) {

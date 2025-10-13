@@ -9,7 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
     
     <style>
-        /* ESTILOS CON PÚRPURA OSCURO */
+        /* ESTILOS CON NARANJA OSCURO */
         /* Base y tipografía */
         body {
             font-family: Arial, sans-serif;
@@ -38,7 +38,7 @@
         .logo {
             width: 60px;
             height: 60px;
-            background-color: #512da8; /* PÚRPURA OSCURO PRINCIPAL */
+            background-color: #ff6f00; /* NARANJA OSCURO PRINCIPAL */
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -50,7 +50,7 @@
         
         .title-container h1 {
             margin: 0;
-            color: #512da8; /* PÚRPURA OSCURO PRINCIPAL */
+            color: #ff6f00; /* NARANJA OSCURO PRINCIPAL */
         }
         
         .title-container p {
@@ -77,7 +77,7 @@
         /* Título al margen derecho */
         h1 {
             text-align: right;
-            color: #512da8; /* PÚRPURA OSCURO PRINCIPAL */
+            color: #ff6f00; /* NARANJA OSCURO PRINCIPAL */
             margin: 0;
             white-space: nowrap;
         }
@@ -91,7 +91,7 @@
 
         #btnNuevoRegistro {
             padding: 10px 15px;
-            background-color: #512da8; /* PÚRPURA OSCURO PRINCIPAL */
+            background-color: #ff6f00; /* NARANJA OSCURO PRINCIPAL */
             color: white;
             border: none;
             border-radius: 4px;
@@ -101,12 +101,12 @@
         }
 
         #btnNuevoRegistro:hover {
-            background-color: #38006b; /* PÚRPURA OSCURO HOVER */
+            background-color: #c53900; /* NARANJA OSCURO HOVER */
         }
 
         #btnImprimirListado {
             padding: 10px 15px;
-            background-color: #7e57c2; /* PÚRPURA OSCURO SECUNDARIO */
+            background-color: #f57c00; /* NARANJA OSCURO SECUNDARIO */
             color: white;
             border: none;
             border-radius: 4px;
@@ -116,7 +116,7 @@
         }
 
         #btnImprimirListado:hover {
-            background-color: #4527a0; /* PÚRPURA OSCURO SECUNDARIO HOVER */
+            background-color: #ef6c00; /* NARANJA OSCURO SECUNDARIO HOVER */
         }
 
         /* Estilos de la Tabla */
@@ -138,7 +138,7 @@
         }
 
         #tablaCausas th {
-            background-color: #512da8; /* PÚRPURA OSCURO PRINCIPAL */
+            background-color: #ff6f00; /* NARANJA OSCURO PRINCIPAL */
             color: white;
         }
 
@@ -166,8 +166,8 @@
             min-width: 60px;
         }
 
-        .btn-ver { background-color: #4527a0; } /* PÚRPURA OSCURO BOTÓN VER */
-        .btn-editar { background-color: #9575cd; } /* PÚRPURA OSCURO BOTÓN EDITAR */
+        .btn-ver { background-color: #ef6c00; } /* NARANJA OSCURO BOTÓN VER */
+        .btn-editar { background-color: #ff8a65; } /* NARANJA OSCURO BOTÓN EDITAR */
         .btn-eliminar { background-color: #c62828; } /* Rojo para eliminar se mantiene */
 
         /* Estilos de Paginación */
@@ -185,16 +185,16 @@
 
         .pagination-controls button {
             padding: 8px 12px;
-            border: 1px solid #512da8; /* PÚRPURA OSCURO BORDER */
+            border: 1px solid #ff6f00; /* NARANJA OSCURO BORDER */
             background-color: #fff;
-            color: #512da8; /* PÚRPURA OSCURO TEXTO */
+            color: #ff6f00; /* NARANJA OSCURO TEXTO */
             cursor: pointer;
             border-radius: 4px;
             font-weight: bold;
         }
         
         .pagination-controls button.active {
-            background-color: #512da8; /* PÚRPURA OSCURO ACTIVO */
+            background-color: #ff6f00; /* NARANJA OSCURO ACTIVO */
             color: white;
         }
 
@@ -237,7 +237,7 @@
         }
 
         .toast-success {
-            background-color: #512da8; /* PÚRPURA OSCURO TOAST ÉXITO */
+            background-color: #ff6f00; /* NARANJA OSCURO TOAST ÉXITO */
         }
 
         .toast-error {
@@ -312,7 +312,7 @@
         }
         
         .tab-button.active {
-            background: #512da8; /* PÚRPURA OSCURO ACTIVO */
+            background: #ff6f00; /* NARANJA OSCURO ACTIVO */
             color: white;
         }
         
@@ -380,7 +380,7 @@
         }
         
         .btn-agregar-fila {
-            background-color: #512da8; /* PÚRPURA OSCURO AGREGAR FILA */
+            background-color: #ff6f00; /* NARANJA OSCURO AGREGAR FILA */
             color: white;
             border: none;
             padding: 8px 15px;
@@ -417,11 +417,11 @@
         .conditional-field {
             margin-top: 10px;
             padding-left: 15px;
-            border-left: 2px solid #512da8; /* PÚRPURA OSCURO CONDICIONAL BORDER */
+            border-left: 2px solid #ff6f00; /* NARANJA OSCURO CONDICIONAL BORDER */
         }
         
         #btnGuardar { 
-            background-color: #512da8; /* PÚRPURA OSCURO GUARDAR */
+            background-color: #ff6f00; /* NARANJA OSCURO GUARDAR */
             color: white; 
             padding: 10px 15px; 
             border: none; 
@@ -433,7 +433,7 @@
         }
 
         #btnGuardar:hover {
-            background-color: #38006b; /* PÚRPURA OSCURO GUARDAR HOVER */
+            background-color: #c53900; /* NARANJA OSCURO GUARDAR HOVER */
         }
 
         /* Estado de carga */
@@ -460,7 +460,7 @@
         }
         
         .badge-cumplido {
-            background-color: #7e57c2; /* PÚRPURA OSCURO CUMPLIDO */
+            background-color: #f57c00; /* NARANJA OSCURO CUMPLIDO */
             color: white;
         }
 
@@ -751,17 +751,17 @@
 
         // Configuración para guardar listado (nueva base)
         const firebaseConfigNueva = {
-            apiKey: "AIzaSyDhRdnI7u6fBBH9A5h31Y9WnDNopkZOlgE",
+            apiKey: "AIzaSyDBisAdWcLk_hzZrWjvZUtmx3Dn2bYhqZk",
 
-  authDomain: "secretarios-def3.firebaseapp.com",
+  authDomain: "secretarios-def2.firebaseapp.com",
 
-  projectId: "secretarios-def3",
+  projectId: "secretarios-def2",
 
-  storageBucket: "secretarios-def3.firebasestorage.app",
+  storageBucket: "secretarios-def2.firebasestorage.app",
 
-  messagingSenderId: "522102845445",
+  messagingSenderId: "153016824405",
 
-  appId: "1:522102845445:web:bfdf7c211d8efad1a2ac6c"
+  appId: "1:153016824405:web:14ca6c9d586d2d7a21dadc"
 
         };
 
@@ -1537,7 +1537,7 @@
         }
 
         function confirmAndDelete(id, expediente) {
-            const confirmacion = confirm(`¿Está seguro de que desea eliminar la causa "${expediente}"?"`);
+            const confirmacion = confirm(`¿Está seguro de que desea eliminar la causa "${expediente}"?`);
             if (confirmacion) {
                 deleteCausa(id);
             }
@@ -1739,13 +1739,13 @@
                         <title>Listado de Causas</title>
                         <style>
                             body { font-family: Arial, sans-serif; margin: 20px; }
-                            h1 { color: #512da8; text-align: center; } /* PÚRPURA OSCURO EN IMPRESIÓN */
+                            h1 { color: #ff6f00; text-align: center; } /* NARANJA OSCURO EN IMPRESIÓN */
                             table { width: 100%; border-collapse: collapse; margin-top: 20px; }
                             th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                            th { background-color: #512da8; color: white; } /* PÚRPURA OSCURO EN IMPRESIÓN */
+                            th { background-color: #ff6f00; color: white; } /* NARANJA OSCURO EN IMPRESIÓN */
                             .badge { padding: 2px 6px; border-radius: 8px; font-size: 10px; font-weight: bold; }
                             .badge-pendiente { background-color: #ffeb3b; color: #333; }
-                            .badge-cumplido { background-color: #7e57c2; color: white; } /* PÚRPURA OSCURO EN IMPRESIÓN */
+                            .badge-cumplido { background-color: #f57c00; color: white; } /* NARANJA OSCURO EN IMPRESIÓN */
                         </style>
                     </head>
                     <body>

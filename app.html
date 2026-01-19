@@ -5,6 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Secretarios</title>
     <style>
+        /* =========================================
+           ESTILOS GLASSMORPHISM (MODIFICADO: GRIS + BORDES ROJOS)
+           ========================================= */
+        :root {
+          /* CAMBIO: Fondo gris en lugar de rojizo */
+          --background-gradient: linear-gradient(135deg, #f3f4f6 0%, #d1d5db 100%);
+          
+          --foreground: #7f1d1d; 
+          --card: rgba(255, 255, 255, 0.7);
+          
+          /* CAMBIO: Borde rojo más visible (aumentada la opacidad) */
+          --card-border: rgba(220, 38, 38, 0.6);
+          
+          --shadow-glass: 0 8px 32px 0 rgba(153, 27, 27, 0.15);
+          --popover: rgba(255, 255, 255, 0.95);
+          --primary: #dc2626; 
+          --primary-foreground: #ffffff;
+          --accent: rgba(220, 38, 38, 0.1);
+          --destructive: #d32f2f;
+          --radius: 1.5rem;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,542 +35,360 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f4f4f4;
+            background: var(--background-gradient);
             min-height: 100vh;
-            color: #000;
+            color: var(--foreground);
+            background-attachment: fixed;
+            overflow-x: hidden;
         }
 
-        .app-container {
-            min-height: 100vh;
-        }
-
+        /* Navbar Glass */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 15px 20px;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 12px 25px;
+            box-shadow: 0 4px 20px rgba(153, 27, 27, 0.08);
             position: sticky;
             top: 0;
             z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            /* Usa la variable de borde rojo reforzado */
+            border-bottom: 2px solid var(--card-border);
         }
 
-        .navbar-brand {
-            font-size: 24px;
-            font-weight: bold;
-            color: #a04000; /* Naranja oscuro */
-        }
+        .navbar-left { display: flex; align-items: center; gap: 20px; }
+        .navbar-brand { font-size: 22px; font-weight: 800; color: var(--primary); letter-spacing: 0.5px; }
 
-        .navbar-btn {
+        .menu-container { position: relative; }
+        .menu-toggle {
+            background: var(--primary);
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border-radius: 12px;
             cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        .navbar-btn + .navbar-btn {
-            margin-left: 10px;
-        }
-
-        .btn-orange {
-            background-color: #d35400; /* Naranja principal */
-        }
-        
-        .btn-orange:hover {
-            background-color: #e67e22; /* Naranja secundario */
-        }
-
-        .navbar-toggle {
-            background: #d35400; /* Naranja principal */
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .user-info {
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 8px;
         }
 
-        .profile-pic {
+        .dropdown-menu {
+            position: absolute;
+            top: 125%;
+            left: 0;
+            width: 250px;
+            background: var(--popover);
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            z-index: 1100;
+            border: 2px solid var(--card-border);
+            display: none;
+            animation: fadeInModal 0.2s ease;
+        }
+        .dropdown-menu.active { display: block; }
+
+        .menu-item {
+            padding: 12px 20px;
+            display: block;
+            text-decoration: none;
+            color: var(--foreground);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .menu-item:hover { background: var(--accent); color: var(--primary); padding-left: 25px; }
+
+        /* Perfil */
+        .user-info { display: flex; align-items: center; gap: 15px; }
+        .user-photo {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #a04000; /* Naranja oscuro */
-            cursor: pointer;
+            border: 2px solid var(--primary);
         }
+        .logout-nav-btn { 
+            background: white; 
+            color: var(--destructive); 
+            border: 2px solid var(--destructive); 
+            padding: 8px 16px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            transition: all 0.2s;
+        }
+        .logout-nav-btn:hover { background: var(--destructive); color: white; }
 
-        .profile-pic-placeholder {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #d35400; /* Naranja principal */
+        /* Layout Principal Ajustado para NO Scroll */
+        .welcome-screen {
+            padding: 20px 40px;
+            height: calc(100vh - 80px); /* Altura exacta */
             display: flex;
-            align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .welcome-message {
-            color: #000;
-            font-weight: 600;
-        }
-
-        .logout-btn {
-            background: #c62828;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: #b71c1c;
-        }
-
-        .main-content {
-            display: flex;
-            min-height: calc(100vh - 80px);
-        }
-
-        .sidebar {
-            width: 70px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            transition: width 0.3s ease;
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            align-items: center;
             overflow: hidden;
         }
 
-        .sidebar.expanded {
-            width: 280px;
-        }
-
-        .sidebar.collapsed {
-            transform: translateX(-100%);
-        }
-
-        .sidebar-menu {
-            list-style: none;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 5px;
-        }
-
-        .sidebar-menu a {
+        .split-layout {
             display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            color: #000;
-            text-decoration: none;
-            transition: all 0.3s;
-            border-left: 4px solid transparent;
-            cursor: pointer;
+            width: 100%;
+            max-width: 1200px;
+            height: 100%;
+            max-height: 800px;
+            gap: 30px;
+            align-items: stretch;
         }
 
-        .sidebar-menu a:hover {
-            background: rgba(211, 84, 0, 0.1); /* Naranja transparente */
-            border-left-color: #a04000; /* Naranja oscuro */
-            color: #a04000; /* Naranja oscuro */
-        }
-
-        .sidebar-menu .icon {
-            font-size: 20px;
-            min-width: 30px;
-            text-align: center;
-        }
-
-        .sidebar-menu .text {
-            margin-left: 15px;
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .sidebar.expanded .sidebar-menu .text {
-            opacity: 1;
-        }
-
-        .content-area {
+        /* Panel Izquierdo */
+        .left-panel {
             flex: 1;
-            padding: 0;
-            background: rgba(255, 255, 255, 0.1);
-            position: relative;
-        }
-
-        .welcome-screen {
-            padding: 40px;
-        }
-
-        .welcome-card {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .welcome-card h1 {
-            color: #000;
-            margin-bottom: 20px;
-            font-size: 32px;
-        }
-
-        .welcome-card p {
-            color: #333;
-            font-size: 18px;
-            line-height: 1.6;
-        }
-
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-            justify-content: center;
-        }
-
-        @media (min-width: 1200px) {
-            .cards-grid {
-                grid-template-columns: repeat(3, minmax(300px, 1fr));
-            }
-        }
-
-        .feature-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-            text-align: center;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .feature-card h3 {
-            color: #000;
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-
-        .feature-card .btn-link {
-            background: #d35400; /* Naranja principal */
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 15px;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        .feature-card .btn-link:hover {
-            background: #e67e22; /* Naranja secundario */
-        }
-
-        .iframe-container {
-            display: none;
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .iframe-header {
-            background: white;
-            padding: 15px 20px;
-            border-bottom: 1px solid #e1e5e9;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            /* Borde rojo fuerte intacto */
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            padding: 30px;
+            box-shadow: var(--shadow-glass);
         }
 
-        .iframe-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #000;
+        .mp-logo {
+            width: 90%;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1));
         }
 
-        .close-iframe {
-            background: #c62828;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
+        /* Panel Derecho Ajustado para ocupar espacio completo */
+        .right-panel {
+            flex: 2;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius);
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-glass);
+            
+            /* CAMBIO: Se resalta el borde a rojo sólido para igualar al panel izquierdo */
+            border: 2px solid var(--primary);
+            
+            overflow: hidden;
+        }
+
+        /* Grilla de Módulos Rectangulares Ajustada */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-auto-rows: 1fr; /* Hace que las filas crezcan proporcionalmente */
+            gap: 20px;
+            width: 100%;
+            height: 100%; /* Ocupa todo el alto disponible del panel */
+        }
+
+        .rect-module {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 15px;
+            height: 100%; /* Se estira al alto de la fila */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
             cursor: pointer;
-            font-weight: bold;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 6px rgba(127, 29, 29, 0.05);
+            
+            /* CAMBIO: Borde sutil rojo en lugar de blanco para resaltar contenedores */
+            border: 1px solid var(--card-border);
+            
+            border-left-width: 6px;
+            border-left-style: solid;
+            color: var(--foreground);
+            font-weight: 700;
+            font-size: 15px;
         }
 
-        .close-iframe:hover {
-            background: #b71c1c;
+        .rect-module:hover {
+            transform: translateY(-5px);
+            background: #fff;
+            box-shadow: 0 15px 35px rgba(127, 29, 29, 0.15);
         }
 
-        .content-iframe {
-            width: 100%;
-            height: calc(100vh - 140px);
-            border: none;
-        }
+        /* Colores de bordes laterales */
+        .rect-module:nth-child(1) { border-left-color: #dc2626; }
+        .rect-module:nth-child(2) { border-left-color: #7c3aed; }
+        .rect-module:nth-child(3) { border-left-color: #16a34a; }
+        .rect-module:nth-child(4) { border-left-color: #ea580c; }
+        .rect-module:nth-child(5) { border-left-color: #2563eb; }
+        .rect-module:nth-child(6) { border-left-color: #0891b2; }
 
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                left: 0;
-                top: 80px;
-                height: calc(100vh - 80px);
-                z-index: 999;
-                transform: translateX(-100%);
-                width: 280px;
-            }
-
-            .sidebar.show {
-                transform: translateX(0);
-            }
-
-            .sidebar.show .sidebar-menu .text {
-                opacity: 1;
-            }
-
-            .content-area {
-                padding: 20px;
-            }
-
-            .welcome-screen {
-                padding: 20px;
-            }
-
-            .welcome-card {
-                padding: 25px;
-            }
-
-            .welcome-card h1 {
-                font-size: 24px;
-            }
-
-            .cards-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            .user-info {
-                gap: 10px;
-            }
-
-            .welcome-message {
-                display: none;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .navbar {
-                padding: 10px 15px;
-            }
-
-            .navbar-brand {
-                font-size: 20px;
-            }
-
-            .welcome-screen {
-                padding: 15px;
-            }
-
-            .welcome-card {
-                padding: 20px;
-            }
-
-            .feature-card {
-                padding: 20px;
-            }
-        }
-
-        @supports (height: 100svh) {
-            .content-iframe {
-                height: calc(100svh - 140px);
-            }
-            .sidebar {
-                height: calc(100svh - 80px);
-            }
-        }
-
-        .modal {
-            display: none;
+        /* MODAL DE SALIDA */
+        .modal-overlay {
             position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(127, 29, 29, 0.2); 
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
             z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeInModal 0.3s ease;
         }
 
         .modal-content {
-            background-color: white;
-            margin: 15% auto;
+            background: rgba(255, 255, 255, 0.95);
             padding: 30px;
-            border-radius: 15px;
+            border-radius: 20px;
             width: 90%;
-            max-width: 400px;
+            max-width: 350px;
             text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            border: 2px solid var(--card-border);
         }
 
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
+        .modal-title { color: var(--destructive); font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; }
+        .modal-text { color: #555; font-size: 1rem; margin-bottom: 25px; font-weight: 500; }
+        
+        .modal-buttons { display: flex; gap: 15px; justify-content: center; }
+        
+        .btn-confirm { 
+            background: var(--destructive); 
+            color: white; 
+            border: none; 
+            padding: 12px 25px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            box-shadow: 0 4px 10px rgba(211, 47, 47, 0.3);
+            transition: transform 0.2s; 
+        }
+        
+        .btn-cancel { 
+            background: #fff5f5;
+            color: var(--primary);
+            border: 1px solid transparent;
+            padding: 12px 25px; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            transition: background 0.2s;
         }
 
-        .close:hover {
-            color: black;
+        .btn-confirm:hover { transform: translateY(-2px); opacity: 0.9; }
+        .btn-cancel:hover { background: #fecaca; }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        .file-input {
-            margin: 20px 0;
+        /* Iframes */
+        .iframe-container { display: none; width: 100%; height: 100%; padding: 20px; }
+        .iframe-card {
+            background: white; border-radius: 1rem; overflow: hidden;
+            box-shadow: var(--shadow-glass); 
+            /* Borde rojo en iframes */
+            border: 2px solid var(--primary);
+            height: calc(100vh - 120px); display: flex; flex-direction: column;
         }
-
-        .error-message {
-            color: #c62828;
-            margin-top: 10px;
-            font-size: 14px;
+        .iframe-header {
+            background: white; padding: 15px 25px; border-bottom: 2px solid var(--primary);
+            display: flex; justify-content: space-between; align-items: center;
         }
+        .content-iframe { width: 100%; flex-grow: 1; border: none; }
 
-        .success-message {
-            color: #2e7d32;
-            margin-top: 10px;
-            font-size: 14px;
+        @media (max-width: 900px) {
+            .split-layout { flex-direction: column; height: auto; }
+            .left-panel { display: none; }
+            .right-panel { height: auto; padding: 20px; }
+            .welcome-screen { height: auto; overflow-y: auto; }
+            .module-grid { grid-template-columns: repeat(2, 1fr); height: auto; }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <nav class="navbar">
-            <div style="display: flex; align-items: center;">
-                <button class="navbar-toggle" onclick="toggleSidebar()">☰</button>
-                <div class="navbar-brand">Sistema Secretarios</div>
-            </div>
-            <div>
-                <button class="navbar-btn btn-orange" onclick="openSection('causas.html', 'Mis Causas')">Mis causas</button>
-                <button class="navbar-btn btn-orange" onclick="openSection('agenda-clientes.html', 'Agenda de Clientes')">Agenda de Clientes</button>
-                <button class="navbar-btn btn-orange" onclick="openSection('control.html', 'Control de Causas')">Control de causas</button>
-                <button class="navbar-btn btn-orange" onclick="openSection('agenda.html', 'Calendario de Tareas')">Calendario de Tareas</button>
-            </div>
-            <div class="user-info">
-                <span class="welcome-message">Bienvenido, <span id="userName">Usuario</span></span>
-                <div id="profilePicContainer">
-                    <div class="profile-pic-placeholder" id="profilePlaceholder">U</div>
-                    <img class="profile-pic" id="profilePic" style="display: none;" alt="Foto de perfil">
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <div class="menu-container">
+                <button class="menu-toggle" id="menuToggleBtn" onclick="toggleMenu()">
+                    <span>☰</span> Menú
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="menu-item" onclick="openSection('causas.html', 'Mis Causas')">Mis causas</div>
+                    <div class="menu-item" onclick="openSection('agenda-clientes.html', 'Agenda de Clientes')">Agenda de Clientes</div>
+                    <div class="menu-item" onclick="openSection('control.html', 'Control de Causas')">Control de causas</div>
+                    <div class="menu-item" onclick="openSection('agenda.html', 'Calendario de Tareas')">Calendario de Tareas</div>
+                    <div class="menu-item" onclick="openSection('estadisticas.html', 'Estadísticas')">Estadística de Tareas</div>
+                    <div class="menu-item" onclick="openExternalSystem()">Sistema Digital</div>
                 </div>
-                <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
             </div>
-        </nav>
+            <div class="navbar-brand">Sistema Secretarios</div>
+        </div>
+        
+        <div class="user-info">
+            <span id="userName" style="font-weight: 700;">Usuario</span>
+            <img id="userPhoto" src="https://github.com/sistemadigital/iconos/blob/main/hombre.png?raw=true" alt="Perfil" class="user-photo">
+            <button class="logout-nav-btn" onclick="logout()">Salir</button>
+        </div>
+    </nav>
 
-        <div class="main-content">
-            <aside class="sidebar" id="sidebar">
-                <ul class="sidebar-menu">
-                    <li><a onclick="openSection('causas.html', 'Mis Causas')">
-                        <span class="icon">⚖️</span>
-                        <span class="text">Mis causas</span>
-                    </a></li>
-                    <li><a onclick="openSection('agenda-clientes.html', 'Agenda de Clientes')">
-                        <span class="icon">⚖️</span>
-                        <span class="text">Agenda de Clientes</span>
-                    </a></li>
-                    <li><a onclick="openSection('control.html', 'Control de Causas')">
-                        <span class="icon">🔍</span>
-                        <span class="text">Control de causas</span>
-                    </a></li>
-                    <li><a onclick="openSection('agenda.html', 'Calendario de Tareas')">
-                        <span class="icon">📅</span>
-                        <span class="text">Calendario de Tareas</span>
-                    </a></li>
-                    <li><a onclick="openExternalSystem()">
-                        <span class="icon">⚖️</span>
-                        <span class="text">Sistema Digital</span>
-                    </a></li>
-                    <li><a onclick="openSection('estadisticas.html', 'Estadísticas')">
-                        <span class="icon">📊</span>
-                        <span class="text">Estadistica de Tareas</span>
-                    </a></li>
-                </ul>
-            </aside>
-
-            <main class="content-area">
-                <div id="welcomeScreen" class="welcome-screen">
-                    <div class="welcome-card">
-                        <h1>Bienvenido al Sistema Secretarios</h1>
-                        <p>Accede a todas las herramientas y recursos necesarios para gestionar eficientemente los procesos. Utiliza el menú lateral para navegar entre las diferentes secciones del sistema.</p>
-                    </div>
-
-                    <div class="cards-grid">
-                         <div class="feature-card" onclick="openSection('causas.html', 'Mis Causas')">
-                            <h3>Mis causas</h3>
-                            <p>Gestiona y consulta tus causas asignadas</p>
-                        </div>
-		
-                        <div class="feature-card" onclick="openSection('agenda-clientes.html', 'Agenda de Clientes')">
-                            <h3>Agenda de Clientes</h3>
-                            <p>Administra tus citas y contactos</p>
-                        </div>
-
-                        <div class="feature-card" onclick="openSection('control.html', 'Control de Causas')">
-                            <h3>Control de causas</h3>
-                            <p>Seguimiento y control de procesos</p>
-                        </div>
-
-                        <div class="feature-card" onclick="openSection('agenda.html', 'Calendario de Tareas')">
-                            <h3>Calendario de Tareas</h3>
-                            <p>Organiza tus actividades y plazos</p>
-                        </div>
-
-                        <div class="feature-card" onclick="openExternalSystem()">
-                            <h3>Sistema Digital</h3>
-                            <p>Acceso al sistema externo de causas</p>
-                        </div>
-
-                        <div class="feature-card" onclick="openSection('estadisticas.html', 'Estadísticas')">
-                            <h3>Estadisticas</h3>
-                            <p>Reportes y análisis de datos</p>
-                        </div>
+    <main>
+        <div id="welcomeScreen" class="welcome-screen">
+            <div class="split-layout">
+                <div class="left-panel">
+                    <img src="https://github.com/sistemadigital/iconos/blob/main/MP.png?raw=true" alt="Logo" class="mp-logo">
+                </div>
+                
+                <div class="right-panel">
+                    <div class="module-grid">
+                        <div class="rect-module" onclick="openSection('causas.html', 'Mis Causas')">Mis causas</div>
+                        <div class="rect-module" onclick="openSection('agenda-clientes.html', 'Agenda de Clientes')">Agenda de Clientes</div>
+                        <div class="rect-module" onclick="openSection('control.html', 'Control de Causas')">Control de causas</div>
+                        <div class="rect-module" onclick="openSection('agenda.html', 'Calendario de Tareas')">Calendario de Tareas</div>
+                        <div class="rect-module" onclick="openExternalSystem()">Sistema Digital</div>
+                        <div class="rect-module" onclick="openSection('estadisticas.html', 'Estadísticas')">Estadísticas</div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div id="iframeContainer" class="iframe-container">
-                    <div class="iframe-header">
-                        <div class="iframe-title" id="iframeTitle">Cargando...</div>
-                        <button class="close-iframe" onclick="closeIframe()">✕ Cerrar</button>
-                    </div>
-                    <iframe id="contentIframe" class="content-iframe" src=""></iframe>
+        <div id="iframeContainer" class="iframe-container">
+            <div class="iframe-card">
+                <div class="iframe-header">
+                    <div class="iframe-title" id="iframeTitle" style="font-weight: 800; color: var(--primary);">Cargando...</div>
+                    <button onclick="closeIframe()" style="background:var(--primary); color:white; border:none; padding:8px 15px; border-radius:8px; cursor:pointer; font-weight:bold;">✕ Cerrar</button>
                 </div>
-            </main>
+                <iframe id="contentIframe" class="content-iframe" src=""></iframe>
+            </div>
+        </div>
+    </main>
+
+    <div id="logoutModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-title">Cerrar Sesión</div>
+            <p class="modal-text">¿Estás seguro que deseas salir del sistema?</p>
+            <div class="modal-buttons">
+                <button class="btn-confirm" id="confirmLogoutBtn">Sí, salir</button>
+                <button class="btn-cancel" onclick="closeLogoutModal()">Cancelar</button>
+            </div>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
         const firebaseConfig = {
             apiKey: "AIzaSyDBisAdWcLk_hzZrWjvZUtmx3Dn2bYhqZk",
@@ -562,100 +402,63 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
-        // Verificar estado de autenticación al cargar
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Usuario autenticado, mostrar información
-                showApp(user);
+                document.getElementById('userName').textContent = user.displayName || user.email;
+                if (user.photoURL) document.getElementById('userPhoto').src = user.photoURL;
             } else {
-                // No hay usuario autenticado, redirigir al login
                 window.location.href = 'index.html';
             }
         });
 
-        function showApp(user) {
-            const userName = user.displayName || user.email || 'Usuario';
-            document.getElementById('userName').textContent = userName;
-            
-            const placeholder = document.getElementById('profilePlaceholder');
-            placeholder.textContent = userName.charAt(0).toUpperCase();
-        }
-
-        // Función de logout global
-        window.logout = async function() {
-            if (confirm('¿Está seguro que desea cerrar sesión?')) {
-                try {
-                    await signOut(auth);
-                    // Redirigir al login después de cerrar sesión
-                    window.location.href = 'index.html';
-                } catch (error) {
-                    console.error('Error al cerrar sesión:', error);
-                    alert('Error al cerrar sesión. Intente nuevamente.');
-                }
-            }
+        window.logout = function() {
+            document.getElementById('logoutModal').style.display = 'flex';
         };
+
+        window.closeLogoutModal = function() {
+            document.getElementById('logoutModal').style.display = 'none';
+        };
+
+        document.getElementById('confirmLogoutBtn').addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+                window.location.href = 'index.html';
+            } catch (error) { console.error('Error:', error); }
+        });
     </script>
 
     <script>
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            if (window.innerWidth <= 768) {
-                sidebar.classList.toggle('show');
-            } else {
-                sidebar.classList.toggle('expanded');
-            }
+        let menuOpen = false;
+        function toggleMenu() {
+            menuOpen = !menuOpen;
+            document.getElementById('dropdownMenu').classList.toggle('active');
         }
 
         function openSection(url, title) {
-            const iframeContainer = document.getElementById("iframeContainer");
-            const iframe = document.getElementById("contentIframe");
-            const iframeTitle = document.getElementById("iframeTitle");
-            const welcomeScreen = document.getElementById("welcomeScreen");
-
-            // Mostrar el iframe y ocultar la pantalla de bienvenida
-            iframeContainer.style.display = "block";
-            if (welcomeScreen) welcomeScreen.style.display = "none";
-            
-            // Establecer título y cargar la URL
-            iframeTitle.textContent = title;
-            iframe.src = url;
-        }
-
-        function openExternalSystem() {
-            // Abrir en nueva ventana/pestaña
-            window.open('https://sistemadigital.github.io/defensor-secretarios/index.html', '_blank');
+            document.getElementById("iframeContainer").style.display = "block";
+            document.getElementById("welcomeScreen").style.display = "none";
+            document.getElementById("iframeTitle").textContent = title;
+            document.getElementById("contentIframe").src = url;
+            if(menuOpen) toggleMenu();
         }
 
         function closeIframe() {
-            const iframeContainer = document.getElementById("iframeContainer");
-            const iframe = document.getElementById("contentIframe");
-            const welcomeScreen = document.getElementById("welcomeScreen");
-
-            // Ocultar el iframe y mostrar la pantalla de bienvenida
-            iframeContainer.style.display = "none";
-            iframe.src = "";
-            
-            if (welcomeScreen) welcomeScreen.style.display = "block";
+            document.getElementById("iframeContainer").style.display = "none";
+            document.getElementById("welcomeScreen").style.display = "flex";
+            document.getElementById("contentIframe").src = "";
         }
 
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const toggleBtn = document.querySelector('.navbar-toggle');
-            
-            if (window.innerWidth <= 768 && 
-                !sidebar.contains(event.target) && 
-                !toggleBtn.contains(event.target) && 
-                sidebar.classList.contains('show')) {
-                sidebar.classList.remove('show');
-            }
-        });
+        function openExternalSystem() {
+            window.open('https://sistemadigital.github.io/defensor-secretarios/index.html', '_blank');
+            if(menuOpen) toggleMenu();
+        }
 
-        window.addEventListener('resize', function() {
-            const sidebar = document.getElementById('sidebar');
-            if (window.innerWidth > 768) {
-                sidebar.classList.remove('show');
-            }
-        });
+        window.onclick = (e) => {
+            const menu = document.getElementById('dropdownMenu');
+            const btn = document.getElementById('menuToggleBtn');
+            if (menuOpen && !menu.contains(e.target) && e.target !== btn) toggleMenu();
+            if (e.target === document.getElementById('logoutModal')) closeLogoutModal();
+        }
     </script>
 </body>
 </html>

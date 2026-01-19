@@ -187,7 +187,8 @@
         /* Grilla de Módulos Rectangulares Ajustada */
         .module-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            /* Ajustado a minmax 210px para coincidir con la lógica visual de A */
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
             grid-auto-rows: 1fr; /* Hace que las filas crezcan proporcionalmente */
             gap: 20px;
             width: 100%;
@@ -308,12 +309,39 @@
         }
         .content-iframe { width: 100%; flex-grow: 1; border: none; }
 
+        /* =========================================
+           ADAPTACIÓN MÓVIL (COMPORTAMIENTO TIPO A)
+           ========================================= */
         @media (max-width: 900px) {
-            .split-layout { flex-direction: column; height: auto; }
+            .split-layout { 
+                flex-direction: column; 
+                padding: 10px; 
+                height: auto; 
+            }
+            /* Ocultamos logo igual que en A */
             .left-panel { display: none; }
-            .right-panel { height: auto; padding: 20px; }
-            .welcome-screen { height: auto; overflow-y: auto; }
-            .module-grid { grid-template-columns: repeat(2, 1fr); height: auto; }
+            
+            /* Ajuste del panel derecho igual que A: min-height y padding */
+            .right-panel { 
+                padding: 20px; 
+                height: auto; 
+                min-height: 400px; 
+            }
+            
+            /* Habilitamos scroll en móvil */
+            .welcome-screen { 
+                height: auto; 
+                padding: 20px; 
+                overflow-y: auto; 
+            }
+            
+            /* IMPORTANTE: Eliminado el 'repeat(2, 1fr)' forzado.
+               Ahora usa 'auto-fit' con 'minmax' definido en la clase base (.module-grid),
+               permitiendo que los módulos se acomoden como en A. */
+            .module-grid { 
+                height: auto; 
+                grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            }
         }
     </style>
 </head>

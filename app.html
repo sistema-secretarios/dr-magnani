@@ -54,17 +54,17 @@
             flex-shrink: 0;
         }
 
-        /* Pie de Página */
+        /* Pie de Página - AHORA EN ROJO */
         footer {
             height: 70px;
-            background-color: #001f3f;
+            background-color: #7f1d1d; /* Rojo oscuro */
             color: white;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 30px;
-            box-shadow: 0 -4px 12px rgba(0,31,63,0.2);
-            border-top: 2px solid #00BFFF;
+            box-shadow: 0 -4px 12px rgba(127, 29, 29, 0.2);
+            border-top: 2px solid #d32f2f; /* Rojo más brillante */
             z-index: 3000;
             cursor: pointer; 
         }
@@ -114,21 +114,22 @@
         .menu-popup li { margin: 0; padding: 0; }
         .menu-popup li a {
             display: block; padding: 10px 20px; text-decoration: none;
-            color: #003366; font-size: 0.85rem; font-weight: 600;
+            color: #7f1d1d; /* Rojo oscuro */
+            font-size: 0.85rem; font-weight: 600;
             transition: background 0.2s, color 0.2s; text-align: left;
             cursor: pointer;
         }
-        .menu-popup li a:hover { background-color: #f0faff; color: #00BFFF; }
+        .menu-popup li a:hover { background-color: #f0faff; color: #d32f2f; }
 
         /* Botón de salida y sección derecha */
         .footer-right {
             display: flex; align-items: center; gap: 20px; z-index: 10; height: 100%; cursor: pointer;
         }
         
-        /* Text y Modal del Desarrollador (eliminado el modal, solo texto) */
+        /* Text y Modal del Desarrollador (sin modal) */
         .sistema-info-text-container { position: relative; display: flex; align-items: center; height: 100%; }
         .sistema-info-text { color: white; font-weight: bold; cursor: default; font-size: 0.95rem; transition: color 0.2s; }
-        .sistema-info-text:hover { color: #00BFFF; }
+        .sistema-info-text:hover { color: #ffb3b3; } /* Rojo claro */
 
         .logout-button {
             display: flex; align-items: center; gap: 8px; background-color: transparent;
@@ -136,9 +137,9 @@
             padding: 8px 16px; color: white; cursor: pointer;
             transition: all 0.2s; font-size: 0.95rem; z-index: 10;
         }
-        .logout-button:hover { background-color: rgba(0,191,255,0.2); border-color: #00BFFF; }
+        .logout-button:hover { background-color: rgba(211, 47, 47, 0.2); border-color: #d32f2f; }
 
-        /* Menú Hamburguesa Resaltado Celeste Glass */
+        /* Menú Hamburguesa (se mantiene azul para contraste, pero se puede cambiar si se desea) */
         .hamburger-menu { 
             display: flex; flex-direction: column; gap: 5px; margin-right: 15px; 
             background: rgba(0, 191, 255, 0.15); 
@@ -160,7 +161,7 @@
             text-align: left; font-size: 0.85rem; color: white;
             line-height: 1.4; cursor: default; z-index: 10;
         }
-        .footer-defensoria strong { color: #00BFFF; font-weight: 700; }
+        .footer-defensoria strong { color: #ffb3b3; font-weight: 700; }
 
         .datetime-weather-container {
             position: relative; color: white; font-size: 0.85rem;
@@ -190,9 +191,9 @@
             animation: fadeIn 0.2s ease-in-out;
         }
         .calendar-popup.show { display: block; }
-        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: bold; color: #003366; }
-        .calendar-header button { background: #f0faff; border: 1px solid #00BFFF; color: #003366; border-radius: 6px; width: 28px; height: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        .calendar-header button:hover { background: #00BFFF; color: white; }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: bold; color: #7f1d1d; }
+        .calendar-header button { background: #f0faff; border: 1px solid #d32f2f; color: #7f1d1d; border-radius: 6px; width: 28px; height: 28px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .calendar-header button:hover { background: #d32f2f; color: white; }
         .calendar-days-header { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 0.75rem; font-weight: bold; color: #64748b; margin-bottom: 8px; }
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; font-size: 0.85rem; }
         .calendar-day { padding: 6px 0; border-radius: 6px; font-weight: 500; }
@@ -263,31 +264,31 @@
             height: 50px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #00BFFF;
+            border: 2px solid #d32f2f; /* Rojo */
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             background-color: white;
         }
         .avatar-placeholder-medium {
-            background-color: #003366;
+            background-color: #7f1d1d; /* Rojo oscuro */
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
             font-weight: bold;
-            border: 2px solid #00BFFF;
+            border: 2px solid #d32f2f;
         }
         .welcome-message {
             font-size: 1.8rem;
             font-weight: 800;
-            color: #003366;
+            color: #7f1d1d; /* Rojo oscuro */
             text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
             white-space: nowrap;
         }
         .sistema-digital-text {
             font-size: 1.8rem;
             font-weight: 800;
-            color: #003366;
+            color: #7f1d1d; /* Rojo oscuro */
             text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
             white-space: nowrap;
             margin-left: auto;
@@ -310,29 +311,29 @@
         }
         .user-dropdown.show { display: block; }
         .dropdown-avatar-placeholder {
-            width: 60px; height: 60px; border-radius: 50%; background-color: #003366; color: white;
+            width: 60px; height: 60px; border-radius: 50%; background-color: #7f1d1d; color: white;
             display: flex; align-items: center; justify-content: center; font-size: 2rem;
-            font-weight: bold; border: 2px solid #00BFFF; margin: 0 auto 10px;
+            font-weight: bold; border: 2px solid #d32f2f; margin: 0 auto 10px;
         }
         .avatar-options { display: flex; gap: 1rem; margin-top: 0.5rem; justify-content: center; }
         .avatar-option {
             width: 60px; height: 60px; border-radius: 50%; cursor: pointer; border: 3px solid transparent;
             transition: border-color 0.2s, transform 0.2s; object-fit: cover;
         }
-        .avatar-option:hover { transform: scale(1.1); border-color: #00BFFF; }
+        .avatar-option:hover { transform: scale(1.1); border-color: #d32f2f; }
         .info-item {
             margin-bottom: 0.75rem; font-size: 0.95rem; color: #1e293b; border-bottom: 1px dashed #cbd5e1;
             padding-bottom: 0.5rem; display: flex; align-items: center; flex-wrap: wrap;
         }
-        .info-item strong { color: #003366; font-weight: 600; display: inline-block; min-width: 110px; }
-        .version-badge { background: #e0f2fe; color: #003366; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.9rem; font-weight: 600; text-align: center; margin-top: 0.5rem; }
+        .info-item strong { color: #7f1d1d; font-weight: 600; display: inline-block; min-width: 110px; }
+        .version-badge { background: #e0f2fe; color: #7f1d1d; padding: 0.25rem 0.75rem; border-radius: 1rem; font-size: 0.9rem; font-weight: 600; text-align: center; margin-top: 0.5rem; }
         
         .edit-row input { padding: 0.3rem 0.5rem; border: 1px solid #cbd5e1; border-radius: 0.375rem; font-size: 0.95rem; flex: 1; margin-right: 0.5rem; }
         .edit-row button { background: none; border: none; cursor: pointer; font-size: 1rem; padding: 0.3rem 0.6rem; border-radius: 0.375rem; transition: background 0.2s; }
         .save-btn { color: #10b981; } .save-btn:hover { background: #e9f9f1; }
         .cancel-btn { color: #ef4444; } .cancel-btn:hover { background: #fee2e2; }
         .edit-icon { cursor: pointer; margin-left: 8px; color: #64748b; transition: color 0.2s; }
-        .edit-icon:hover { color: #00BFFF; }
+        .edit-icon:hover { color: #d32f2f; }
 
         /* Grid de módulos - ajustado para escritorio */
         .module-grid-container {
@@ -342,18 +343,17 @@
             align-items: center;
             padding: 20px;
             width: 100%;
-            height: 100%; /* Ocupa todo el alto disponible */
-            overflow: auto; /* Por si el contenido es más grande */
+            height: 100%;
+            overflow: auto;
         }
         .module-grid {
             display: grid;
             gap: 20px;
             width: 100%;
-            height: 100%; /* Ocupa todo el alto del contenedor */
+            height: 100%;
             padding: 10px;
         }
 
-        /* Estilos para escritorio (>768px) */
         @media (min-width: 769px) {
             .module-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -361,7 +361,6 @@
             }
         }
 
-        /* Estilos para móvil (se mantienen como estaban) */
         @media (max-width: 768px) {
             .module-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -404,7 +403,7 @@
             font-size: 15px;
             min-height: 100px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            height: 100%; /* Para que ocupe toda la celda del grid */
+            height: 100%;
         }
         .rect-module:hover {
             transform: translateY(-5px);
@@ -418,7 +417,7 @@
         .rect-module:nth-child(5) { border-left-color: #2563eb; }
         .rect-module:nth-child(6) { border-left-color: #0891b2; }
 
-        /* Modal de cumpleaños (se mantiene) */
+        /* Modal de cumpleaños */
         .birthday-modal {
             display: none;
             position: fixed;
@@ -459,7 +458,7 @@
         #birthdayList { list-style: none; padding: 0; margin: 1rem 0; max-height: 200px; overflow-y: auto; color: #334155; font-weight: 500; }
         #birthdayList li { padding: 0.3rem 0; border-bottom: 1px dashed #e2e8f0; font-size: 1.2rem; }
         .btn-cerrar {
-            background-color: #003366;
+            background-color: #7f1d1d;
             color: white;
             border: none;
             padding: 0.6rem 2rem;
@@ -469,7 +468,7 @@
             transition: background 0.2s;
             margin-top: 1rem;
         }
-        .btn-cerrar:hover { background-color: #002244; }
+        .btn-cerrar:hover { background-color: #b71c1c; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
@@ -480,17 +479,11 @@
 <body>
 
     <main id="mainContent">
-        <!-- Iframe para contenido interno (secciones) -->
         <iframe id="appIframe"></iframe>
 
-        <!-- Pantalla de inicio (home) -->
         <div id="homeContent">
-            <!-- Área de bienvenida (se rellena con JS) -->
-            <div id="dynamicContent">
-                <!-- El contenido se generará dinámicamente -->
-            </div>
+            <div id="dynamicContent"></div>
 
-            <!-- Grid de módulos -->
             <div class="module-grid-container">
                 <div class="module-grid">
                     <div class="rect-module" data-url="causas.html" data-title="Mis Causas">Mis causas</div>
@@ -512,7 +505,6 @@
                 </div>
                 <span class="click-text">Haz clic para acceder</span>
 
-                <!-- Menú desplegable con las opciones de app.html -->
                 <div class="menu-popup" id="mainMenuPopup">
                     <ul>
                         <li><a onclick="openSection('causas.html', 'Mis Causas')">Mis causas</a></li>
@@ -565,7 +557,6 @@
         </div>
     </footer>
 
-    <!-- Modal de confirmación de salida -->
     <div class="modal-overlay" id="modalSalida">
         <div class="modal-alerta">
             <h3>Cerrar sesión</h3>
@@ -577,7 +568,6 @@
         </div>
     </div>
 
-    <!-- Modal de cumpleaños -->
     <div id="birthdayModal" class="birthday-modal">
         <div class="birthday-modal-content">
             <span class="close-birthday">&times;</span>
@@ -874,7 +864,7 @@
                         <div class="info-item"><strong>Último acceso:</strong> ${lastLoginStr}</div>
                         <div class="info-item"><strong>Registro:</strong> ${creationStr}</div>
                         <div class="version-badge">Versión 3.1.2026</div>
-                        <button onclick="window.mostrarHome()" style="margin-top:10px; padding:8px 15px; cursor:pointer; background:#00BFFF; border:none; border-radius:5px; color:white; font-weight:bold; width:100%;">Volver al Inicio</button>
+                        <button onclick="window.mostrarHome()" style="margin-top:10px; padding:8px 15px; cursor:pointer; background:#d32f2f; border:none; border-radius:5px; color:white; font-weight:bold; width:100%;">Volver al Inicio</button>
                     </div>
                 </div>
             `;
@@ -931,7 +921,6 @@
             }
         });
 
-        // Funciones de navegación
         window.openSection = function(url, title) {
             const iframe = document.getElementById('appIframe');
             const home = document.getElementById('homeContent');
@@ -952,7 +941,6 @@
             window.open('https://sistemadigital.github.io/defensor-secretarios/index.html', '_blank');
         };
 
-        // Asignar eventos a los módulos del grid
         document.querySelectorAll('.rect-module[data-url]').forEach(mod => {
             mod.addEventListener('click', () => {
                 const url = mod.dataset.url;
@@ -961,7 +949,6 @@
             });
         });
 
-        // Modal de salida
         document.getElementById('confirmarSalida').addEventListener('click', async () => {
             document.getElementById('modalSalida').classList.remove('active');
             try { await signOut(auth); } catch (error) { console.error('Error al salir:', error); }
@@ -974,7 +961,6 @@
             document.getElementById('modalSalida').classList.remove('active');
         });
 
-        // Cerrar modal de cumpleaños
         document.getElementById('closeBirthdayBtn').addEventListener('click', () => {
             document.getElementById('birthdayModal').style.display = 'none';
         });

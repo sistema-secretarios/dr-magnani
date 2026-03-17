@@ -37,7 +37,7 @@
             overflow-x: hidden;
         }
 
-        /* Navbar: AJUSTADA COMO CÓDIGO A PARA ESTAR SIEMPRE VISIBLE */
+        /* Navbar: AJUSTADA PARA ESTAR SIEMPRE VISIBLE */
         .navbar {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
@@ -56,8 +56,8 @@
             border-bottom: 2px solid var(--card-border);
         }
 
-        /* Ajuste para que el contenido no quede debajo de la navbar fija */
-        main {
+        /* Ajuste de contenido para navbar fija */
+        .main-content {
             padding-top: 75px; 
             width: 100%;
         }
@@ -67,7 +67,6 @@
 
         .menu-container { position: relative; }
         
-        /* Estilo para el Menú y los nuevos botones personalizados */
         .menu-toggle, .btn-nav-custom {
             background: var(--primary);
             color: white;
@@ -103,8 +102,14 @@
             margin-top: 8px;
             border: 2px solid var(--card-border);
             display: none;
-            animation: fadeInModal 0.2s ease;
+            animation: slideDown 0.2s ease;
         }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .dropdown-menu.active { display: block; }
 
         .menu-item {
@@ -132,7 +137,7 @@
         }
         .logout-nav-btn:hover { background: var(--destructive); color: white; }
 
-        /* Layout Principal */
+        /* Estructura Principal */
         .welcome-screen {
             padding: 20px 40px;
             height: calc(100vh - 80px);
@@ -165,13 +170,7 @@
             box-shadow: var(--shadow-glass);
         }
 
-        .mp-logo {
-            width: 90%;
-            max-width: 100%;
-            height: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.1));
-        }
+        .mp-logo { width: 90%; height: auto; object-fit: contain; }
 
         .right-panel {
             flex: 2;
@@ -218,7 +217,6 @@
 
         .rect-module:hover { transform: translateY(-5px); background: #fff; }
 
-        /* Colores de bordes */
         .rect-module:nth-child(1) { border-left-color: #dc2626; }
         .rect-module:nth-child(2) { border-left-color: #7c3aed; }
         .rect-module:nth-child(3) { border-left-color: #16a34a; }
@@ -226,28 +224,32 @@
         .rect-module:nth-child(5) { border-left-color: #2563eb; }
         .rect-module:nth-child(6) { border-left-color: #0891b2; }
 
-        /* =========================================
-           ADAPTACIÓN MÓVIL
-           ========================================= */
-        @media (max-width: 850px) {
-            .navbar { padding: 10px; height: auto; flex-wrap: wrap; }
-            .navbar-brand { font-size: 14px; white-space: normal; line-height: 1.1; max-width: 150px; order: 1; }
-            .navbar-left { gap: 8px; width: 100%; order: 3; margin-top: 10px; overflow-x: auto; padding-bottom: 5px; }
-            .user-info { order: 2; gap: 8px; }
-            
-            .btn-nav-custom, .menu-toggle { padding: 8px 12px; font-size: 12px; min-width: auto; white-space: nowrap; }
-            #userName { display: none; } 
-            .logout-nav-btn { padding: 8px 10px; font-size: 13px; }
-
-            .split-layout { flex-direction: column; height: auto; }
-            .left-panel { display: none; }
-            .right-panel { padding: 20px; height: auto; min-height: 400px; align-items: center; }
-            
-            .welcome-screen { height: auto; padding: 20px; overflow-y: auto; }
-            main { padding-top: 130px; }
+        /* Contenedor Iframe (Superpuesto) */
+        .iframe-container { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100vw; height: 100vh; 
+            z-index: 6000; 
+            background: white;
+            flex-direction: column;
         }
 
-        /* Modales e Iframes */
+        .iframe-header {
+            background: white; 
+            padding: 10px 25px; 
+            border-bottom: 2px solid var(--primary);
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            height: 60px;
+            flex-shrink: 0;
+        }
+        
+        .iframe-title { font-weight: 800; font-size: 18px; color: var(--primary); }
+        .content-iframe { width: 100%; flex: 1; border: none; }
+
+        /* Modales */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -257,8 +259,7 @@
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 6000;
-            animation: fadeInModal 0.3s ease;
+            z-index: 7000;
         }
 
         .modal-content {
@@ -271,29 +272,67 @@
             border: 2px solid var(--card-border);
         }
 
-        .iframe-container { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh; 
-            z-index: 4000; 
-            background: white;
-            flex-direction: column;
-            padding-top: 70px;
+        /* =========================================
+           ADAPTACIÓN MÓVIL (LÓGICA CÓDIGO ANTERIOR)
+           ========================================= */
+        @media (max-width: 850px) {
+            .navbar { 
+                padding: 15px; 
+                height: auto; 
+                flex-direction: column; 
+                gap: 12px;
+            }
+            
+            .navbar-left { display: contents; }
+            
+            .navbar-brand { 
+                order: 1; 
+                font-size: 20px; 
+                white-space: normal; 
+                text-align: center; 
+                width: 100%; 
+            }
+            
+            .user-info { 
+                order: 2; 
+                width: 100%; 
+                justify-content: center; 
+                border-bottom: 1px solid var(--card-border); 
+                padding-bottom: 15px;
+            }
+            
+            #userName { display: none; }
+            
+            .menu-container { order: 3; width: 100%; }
+            .menu-toggle { width: 100%; }
+            
+            .dropdown-menu { width: 100%; top: 100%; left: 0; }
+            
+            .btn-nav-custom { order: 4; width: 100%; }
+
+            .main-content { padding-top: 220px; } 
+
+            .welcome-screen { 
+                height: auto; 
+                padding: 15px; 
+                overflow-y: auto; 
+            }
+            
+            .split-layout { flex-direction: column; height: auto; gap: 20px; }
+            .left-panel { display: none; } 
+            .right-panel { padding: 15px; height: auto; background: transparent; box-shadow: none; border: none; }
+            
+            .module-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 12px; 
+            }
+            
+            .rect-module { min-height: 110px; padding: 10px; font-size: 13px; }
         }
 
-        .iframe-card { background: white; flex: 1; display: flex; flex-direction: column; }
-        .iframe-header {
-            background: white; padding: 10px 25px; border-bottom: 2px solid var(--primary);
-            display: flex; justify-content: space-between; align-items: center; height: 50px;
-        }
-        .content-iframe { width: 100%; flex: 1; border: none; }
-
-        @keyframes fadeInModal {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+        @media (max-width: 480px) {
+            .module-grid { grid-template-columns: 1fr; } 
+            .main-content { padding-top: 230px; }
         }
     </style>
 </head>
@@ -329,7 +368,7 @@
         </div>
     </nav>
 
-    <main>
+    <main class="main-content">
         <div id="welcomeScreen" class="welcome-screen">
             <div class="split-layout">
                 <div class="left-panel">
@@ -350,13 +389,11 @@
         </div>
 
         <div id="iframeContainer" class="iframe-container">
-            <div class="iframe-card">
-                <div class="iframe-header">
-                    <div class="iframe-title" id="iframeTitle" style="font-weight: 800; color: var(--primary);">Cargando...</div>
-                    <button onclick="closeIframe()" style="background:var(--primary); color:white; border:none; padding:8px 15px; border-radius:8px; cursor:pointer; font-weight:bold;">✕ Cerrar</button>
-                </div>
-                <iframe id="contentIframe" class="content-iframe" src=""></iframe>
+            <div class="iframe-header">
+                <div class="iframe-title" id="iframeTitle">Cargando...</div>
+                <button onclick="closeIframe()" style="background:var(--primary); color:white; border:none; padding:8px 20px; border-radius:10px; cursor:pointer; font-weight:bold;">✕ Cerrar</button>
             </div>
+            <iframe id="contentIframe" class="content-iframe" src=""></iframe>
         </div>
     </main>
 
